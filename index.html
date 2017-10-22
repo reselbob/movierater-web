@@ -11,11 +11,14 @@
 <body>
 
 <style>
+    #ratingList{
+        width: 800px;
+    }
 </style>
 
 <h1>The El Nido Tech Academy Movie Rater</h1>
 
-<table>
+<table id="entryForm">
     <tr>
         <td>
             Movie
@@ -50,12 +53,19 @@
     </tr>
 
 </table>
+<hr>
+<table id="ratingList">
+    <tr><td>Movie</td><td>Rating</td><td>Rater</td></tr>
+
+</table>
 <script>
+
+    var dataUrl = '';
 
     function populateMoviesAsync(dropDownId){
         // go out the the internet the get the data
         $.ajax({
-            url:'',
+            url:dataUrl,
             accepts: 'application/json',
             type: 'GET',
             success: function(data) {
@@ -138,6 +148,22 @@
 
     }
 
+    function addEntryToUiList(entry){
+        var table = document.getElementById("ratingList");
+        // Create an empty <tr> element and add it to the 1st position of the table:
+        var row = table.insertRow(table.rows.length);
+
+    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+    // Add some text to the new cells:
+        cell1.innerHTML = entry.movie;
+        cell2.innerHTML = entry.rating;
+        cell3.innerHTML = entry.rater;
+    }
+
     function submitRating(){
 
         var rating = {};
@@ -161,6 +187,13 @@
         str += "Rating value : " + rating.value + "\n";
         str += "From ratier : " + email + "\n";
 
+        var entry = {};
+        entry.movie = movie.text;
+        entry.rating = rating.text;
+        entry.rater = email;
+
+        addEntryToUiList(entry)
+
         alert(str);
 
         return alert("Just kidding. This feature is not yet implemented");
@@ -168,7 +201,6 @@
     }
 
     populateMoviesAsync("movie");
-    //populateMovies();
     populateRatings();
 
 </script>
