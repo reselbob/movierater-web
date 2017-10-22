@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Movie Rater</title>
 </head>
+<script
+        src="http://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
 <body>
 
 <style>
-    #container label  { float: left; margin-right: 5px; /* The label must be a floating element, the margin adds a little space to visually separate it from the input field */ }
-    #container div  { overflow: hidden; /* This does the trick */ }
 </style>
 
 <h1>The El Nido Tech Academy Movie Rater</h1>
@@ -49,6 +51,43 @@
 
 </table>
 <script>
+
+    function populateMoviesAsync(dropDownId){
+        // go out the the internet the get the data
+        $.ajax({
+            url:'',
+            accepts: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                //called when successful
+
+                //get the dropdown and load the data
+                console.log(data);
+                loadDataToDropDown(dropDownId, data);
+            },
+            error: function(e) {
+                //called when there is an error
+                console.log(e.message);
+            }
+        });
+    }
+
+    function loadDataToDropDown(dropDownId, data){
+        var movieElement = document.getElementById(dropDownId);
+        var op = document.createElement('option');
+        op.innerHTML = "Select a Movie";
+        op.value = 0;
+        movieElement.append(op);
+
+        data.forEach(function(movie) {
+            console.log(JSON.stringify(movie));
+            var option = document.createElement('option');
+            option.innerHTML = movie.text;
+            option.value = movie.id;
+            movieElement.append(option)
+        });
+    }
+
     function populateMovies(){
         //make a list of movies
         var movies = [];
@@ -78,7 +117,7 @@
         var ratings = [];
         ratings.push({"rating": -1, "text": "Select a rating"});
         ratings.push({"rating": 0, "text": "Awful"});
-        ratings.push({"rating": 1, "text": "Not to Bad"});
+        ratings.push({"rating": 1, "text": "Not too Bad"});
         ratings.push({"rating": 2, "text": "OK"});
         ratings.push({"rating": 3, "text": "Good"});
         ratings.push({"rating": 4, "text": "Great!"});
@@ -128,7 +167,8 @@
 
     }
 
-    populateMovies();
+    populateMoviesAsync("movie");
+    //populateMovies();
     populateRatings();
 
 </script>
