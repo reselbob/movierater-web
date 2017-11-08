@@ -16,7 +16,7 @@
     }
 </style>
 
-<h1>The El Nido Tech Academy Movie Rater</h1>
+<h1>Simple Movie Rater</h1>
 
 <table id="entryForm">
     <tr>
@@ -55,7 +55,7 @@
 </table>
 <hr>
 <table id="ratingList">
-    <tr><td>Movie</td><td>Rating</td><td>Rater</td></tr>
+    <tr><td>Movie</td><td>Rating</td><td>Rater</td><td>Date</td></tr>
 
 </table>
 <script>
@@ -103,7 +103,7 @@
         var movies = [];
         movies.push("Gone With the Wind");
         movies.push("Flash");
-        movies.push("JusticeLeagueOfAmerica");
+        movies.push("Justice League Of America");
 
         //find the movies dropdown
         var movieElement = document.getElementById("movie");
@@ -157,11 +157,13 @@
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
 
     // Add some text to the new cells:
         cell1.innerHTML = entry.movie;
         cell2.innerHTML = entry.rating;
         cell3.innerHTML = entry.rater;
+        cell4.innerHTML = entry.createDate;
     }
 
     function submitRating(){
@@ -191,6 +193,8 @@
         entry.movie = movie.text;
         entry.rating = rating.text;
         entry.rater = email;
+        var date = new Date();
+        entry.createDate = date.toDateString();
 
         addEntryToUiList(entry)
 
@@ -199,8 +203,8 @@
         return alert("Just kidding. This feature is not yet implemented");
 
     }
-
-    populateMoviesAsync("movie");
+    populateMovies();
+    //populateMoviesAsync("movie");
     populateRatings();
 
 </script>
